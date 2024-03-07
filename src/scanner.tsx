@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 
-import { getDeviceId, decoder } from "./utilities";
-import type { ScannerProps } from "./utilities";
+import decoder from "./utils/decoder";
+import getDeviceId from "./utils/getDeviceId";
+import type ScannerProps from "./types/scanner-props";
 
 interface HTMLVideoElementExtended extends HTMLVideoElement {
   mozSrcObject?: MediaStream
@@ -18,7 +19,7 @@ export default function Scanner({
 }: ScannerProps) {
   const preview = useRef<HTMLVideoElementExtended>(null)
   const canvas = useRef<HTMLCanvasElement>(null)
-  let timeout: number | null, stopCamera: (() => void) | undefined;
+  let timeout: NodeJS.Timeout | null, stopCamera: (() => void) | undefined;
 
   const handleVideo = (stream: MediaStream) => {
     if (!preview.current) {
@@ -122,4 +123,4 @@ export default function Scanner({
       }} ref={canvas} />
     </div>
   );
-};
+}

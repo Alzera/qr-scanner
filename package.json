@@ -1,12 +1,9 @@
 {
-  "name": "react-qrcode-scanner",
+  "name": "@alzera/react-qr-scanner",
   "version": "1.0.0",
   "description": "QR code scanner component for React apps",
   "license": "MIT",
-  "author": {
-    "name": "Alzera Cita",
-    "email": "alzeracita23@gmail.com"
-  },
+  "author": "Alzera Cita <alzeracita23@gmail.com>",
   "keywords": [
     "react",
     "qr",
@@ -29,9 +26,11 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "analyze": "npx vite-bundle-visualizer"
   },
   "devDependencies": {
+    "@types/node": "^20.11.25",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
@@ -45,7 +44,7 @@
     "vite-plugin-dts": "^3.7.3"
   },
   "peerDependencies": {
-    "jsqr": "^1.4.0",
+    "barcode-detector": "^2.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

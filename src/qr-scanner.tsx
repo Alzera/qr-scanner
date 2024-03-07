@@ -1,9 +1,10 @@
 import { useState } from "react";
+
 import Scanner from "./scanner";
 import DropArea from "./drop-area"
-import type { ScannerProps } from "./utilities";
+import type ScannerProps from "./types/scanner-props";
 
-export default function QrcodeScanner({
+export default function QrScanner({
   onScan,
   onError,
   facingMode,
@@ -19,7 +20,10 @@ export default function QrcodeScanner({
 }) {
   const [isScanner, setIsScanner] = useState(true)
   return (
-    <div className={className} style={style}>
+    <div className={className} style={{
+      ...style,
+      width: '100%'
+    }}>
       {isScanner
         ? <Scanner
           onScan={onScan}
@@ -45,4 +49,4 @@ export default function QrcodeScanner({
       </button>
     </div>
   );
-};
+}

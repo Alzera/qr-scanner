@@ -1,7 +1,7 @@
 import { useRef } from "react";
 
-import { decoder, fileToImageData } from "./utilities";
-import type { ScannerProps } from "./utilities";
+import decoder from "./utils/decoder";
+import type ScannerProps from "./types/scanner-props";
 
 export default function DropArea({
   onScan,
@@ -11,13 +11,11 @@ export default function DropArea({
 
   const handleDetect = async (file: File) => {
     try {
-      const detectedCodes = await fileToImageData(file);
-      if (!detectedCodes) return
-      const data = await decoder(detectedCodes)
+      const data = await decoder(file)
       if (!data) return
       onScan(data)
     } catch (error) {
-      onError && onError(error)
+      onError && onError(error as any)
     }
   }
 
@@ -58,4 +56,4 @@ export default function DropArea({
       <div>Drop an image here to scan<br />or<br /><u>Click here to browse</u></div>
     </div>
   );
-};
+}

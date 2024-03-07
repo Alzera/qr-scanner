@@ -1,21 +1,31 @@
 import { defineConfig } from 'vite'
+import { resolve } from 'node:path'
 import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts';
 
-// https://vitejs.dev/config/
-// export default defineConfig({
-//   plugins: [react()],
-// })
 export default defineConfig({
-  plugins: [react(), dts({ // Add dts plugin for type definitions
-    insertTypesEntry: true,
-  })],
+  plugins: [
+    react(),
+    dts({ insertTypesEntry: true })
+  ],
   build: {
+    // sourcemap: true,
     lib: {
-      entry: './src/index.tsx', // Specify entry point
-      name: 'ReactQrScanner', // Set library name
-      fileName: (format) => `react-qr-scanner.${format}.js`, // Customize output file names
+      entry: {
+        'index': resolve(__dirname, 'src/index.ts'),
+        'qr-scanner': resolve(__dirname, 'src/qr-scanner.tsx'),
+        'scanner': resolve(__dirname, 'src/scanner.tsx'),
+        'drop-area': resolve(__dirname, 'src/drop-area.tsx'),
+      },
+      formats: ['es'],
+      name: 'ReactQrScanner',
+      // fileName: (format, entryName) => format === 'es' ? `${entryName}.js` : `${entryName}.${format}.js`
     },
-    // Other relevant build options...
+    rollupOptions: {
+      external: ['react/jsx-runtime','react'],
+      output: {
+        exports: "named"
+      }
+    }
   },
 });
