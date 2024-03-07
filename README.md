@@ -1,30 +1,61 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# React QR Scanner
 
-Currently, two official plugins are available:
+`react-qr-scanner` is a lightweight and simple-to-use React library for integrating QR code scanning functionality into your web applications. The primary goal of this library is to provide a hassle-free solution for developers who need a quick and efficient way to incorporate QR code scanning without the bloat.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+-   **Lightweight:** Keep your web application nimble with a minimalistic QR code scanning solution.
+-   **Simplicity:** Easy-to-use API designed for developers of all skill levels.
+-   **Legacy:** Support image input as camera fallback.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Installation
 
-- Configure the top-level `parserOptions` property like this:
+Install `@alzera/react-qr-scanner` using your preferred package manager:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+    npm install @alzera/react-qr-scanner
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Usage
+
+### Basic Example
+    import React, { useState } from 'react';
+    import QRScanner from '@alzera/react-qr-scanner';
+    
+    const MyQRScannerComponent = () => {
+      const [scannedData, setScannedData] = useState(null);
+    
+      const handleScan = (data) => {
+        if (data) {
+          setScannedData(data);
+        }
+      };
+    
+      return (
+        <div>
+          <QRScanner onScan={handleScan} />
+          {scannedData && <p>Scanned Data: {scannedData}</p>}
+        </div>
+      );
+    };
+    
+    export default MyQRScannerComponent;
+
+### Props
+
+-   **`onScan`** _(required)_: Callback function triggered when a QR code is scanned. Passes the scanned data as an argument.
+-   **`onError`**: Callback function triggered when an error occurs during scanning.
+-   **`facingMode`**: Specify the camera facing mode (`user` or `environment`).
+-   **`flipHorizontally`**: Flip the video feed horizontally.
+-   **`delay`**: Set the delay (in milliseconds) between scans.
+-   **`resolution`**: Set the resolution of the scanner.
+-   **`aspectRatio`**: Set the aspect ratio of the scanner window.
+-   **`style`**: Apply custom styles to the scanner component.
+-   **`className`**: Add custom class names to the scanner component.
+
+## Contributing
+
+We welcome contributions! Feel free to open issues, create pull requests, or provide feedback.
+
+----------
+
+Happy scanning! 📷🚀

@@ -15,14 +15,14 @@ export default defineConfig({
         'index': resolve(__dirname, 'src/index.ts'),
         'qr-scanner': resolve(__dirname, 'src/qr-scanner.tsx'),
         'scanner': resolve(__dirname, 'src/scanner.tsx'),
-        'drop-area': resolve(__dirname, 'src/drop-area.tsx'),
+        'drop-zone': resolve(__dirname, 'src/drop-zone.tsx'),
       },
       formats: ['es'],
       name: 'ReactQrScanner',
       // fileName: (format, entryName) => format === 'es' ? `${entryName}.js` : `${entryName}.${format}.js`
     },
     rollupOptions: {
-      external: ['react/jsx-runtime','react'],
+      external: ['react','react/jsx-runtime'],
       output: {
         exports: "named"
       }

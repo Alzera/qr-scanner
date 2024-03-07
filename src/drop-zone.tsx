@@ -21,6 +21,7 @@ export default function DropArea({
 
   return (
     <div
+      id="qr-drop-zone"
       onDrop={(e) => {
         e.preventDefault();
         e.stopPropagation();
