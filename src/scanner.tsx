@@ -113,8 +113,8 @@ const getDeviceId = (facingMode: string) => new Promise<string>((resolve, reject
       const pattern = facingMode === 'environment' ? /rear|back|environment/gi : /front|user|face/gi
       const filteredDevices = videoDevices.filter(({ label }) => pattern.test(label))
 
-      if (filteredDevices.length > 0) return filteredDevices[0].deviceId
-      if (videoDevices.length === 1 || facingMode === 'user') return videoDevices[0].deviceId
+      if (filteredDevices.length > 0) return resolve(filteredDevices[0].deviceId)
+      if (videoDevices.length === 1 || facingMode === 'user') return resolve(videoDevices[0].deviceId)
       resolve(videoDevices[1].deviceId)
     })
   } catch (err) {

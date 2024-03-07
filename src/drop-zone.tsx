@@ -6,7 +6,10 @@ import type ScannerProps from "./types/scanner-props";
 export default function DropArea({
   onScan,
   onError,
-}: Pick<ScannerProps, 'onScan' | 'onError'>) {
+  children,
+}: Pick<ScannerProps, 'onScan' | 'onError'> & {
+  children?: React.ReactNode
+}) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDetect = async (file: File) => {
@@ -54,7 +57,7 @@ export default function DropArea({
           opacity: '0',
         }}
       />
-      <div>Drop an image here to scan<br />or<br /><u>Click here to browse</u></div>
+      {children || <div>Drop an image here to scan<br />or<br /><u>Click here to browse</u></div>}
     </div>
   );
 }

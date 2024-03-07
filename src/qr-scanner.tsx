@@ -12,11 +12,15 @@ export default function QrScanner({
   delay,
   resolution,
   aspectRatio,
+  switchLabel,
+  dropChildren,
   style,
   className,
 }: ScannerProps & {
-  style?: React.CSSProperties;
-  className?: string;
+  switchLabel?: (isScanner: boolean) => React.ReactNode
+  dropChildren?: React.ReactNode
+  style?: React.CSSProperties
+  className?: string
 }) {
   const [isScanner, setIsScanner] = useState(true)
   return (
@@ -36,7 +40,9 @@ export default function QrScanner({
         />
         : <DropZone
           onScan={onScan}
-          onError={onError} />}
+          onError={onError}>
+          {dropChildren}
+        </DropZone>}
       <button
         type="button"
         onClick={() => setIsScanner(!isScanner)}
@@ -45,7 +51,9 @@ export default function QrScanner({
           marginTop: '16px',
           fontSize: '1rem',
         }}>
-        Switch to {isScanner ? 'image input' : 'scanner'}
+        {switchLabel !== undefined
+          ? switchLabel(isScanner)
+          : `Switch to ${isScanner ? 'image input' : 'scanner'}`}
       </button>
     </div>
   );
