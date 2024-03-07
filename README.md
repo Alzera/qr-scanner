@@ -1,6 +1,8 @@
 
 # React QR Scanner
-
+<a href="https://bundlephobia.com/package/@alzera/react-qr-scanner">
+	<img src="https://badgen.net/bundlephobia/minzip/@alzera/react-qr-scanner" alt="size minified + gzipped">
+</a>
 `@alzera/react-qr-scanner` is a lightweight and simple-to-use React library for integrating QR code scanning functionality into your web applications. The primary goal of this library is to provide a hassle-free solution for developers who need a quick and efficient way to incorporate QR code scanning without the bloat.
 
 ## Features
