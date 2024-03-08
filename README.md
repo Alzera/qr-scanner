@@ -18,25 +18,23 @@ Install `@alzera/react-qr-scanner` using your preferred package manager:
 
     npm install @alzera/react-qr-scanner
 
-## Usage
+## Components
 
-### Basic Example
+### QRScanner
+
+Combined version of Scanner component and DropZone component, comes with a built-in button that allows users to switch between the scanning mode and the drop zone mode.
+
+#### Basic Example
 
     import React, { useState } from 'react';
     import QRScanner from '@alzera/react-qr-scanner';
     
     const MyQRScannerComponent = () => {
-      const [scannedData, setScannedData] = useState(null);
-    
-      const handleScan = (data) => {
-        if (data) {
-          setScannedData(data);
-        }
-      };
+      const [scannedData, setScannedData] = useState('');
     
       return (
-        <div>
-          <QRScanner onScan={handleScan} />
+        <div style={{ maxWidth: '500px' }}>
+          <QRScanner onScan={(d) => d && setScannedData(d)} />
           {scannedData && <p>Scanned Data: {scannedData}</p>}
         </div>
       );
@@ -44,22 +42,91 @@ Install `@alzera/react-qr-scanner` using your preferred package manager:
     
     export default MyQRScannerComponent;
 
-### Props
+#### Props
 
--   **`onScan`** _(required)_: Callback function triggered when a QR code is scanned. Passes the scanned data as an argument.
--   **`onError`**: Callback function triggered when an error occurs during scanning.
--   **`facingMode`**: Specify the camera facing mode (`user` or `environment`).
--   **`flipHorizontally`**: Flip the video feed horizontally.
--   **`delay`**: Set the delay (in milliseconds) between scans.
--   **`resolution`**: Set the resolution of the scanner.
--   **`aspectRatio`**: Set the aspect ratio of the scanner window.
--   **`switchLabel`**: Function to customize the label for the switch component (if applicable).
--   **`dropChildren`**: React node to customize the content of the drop area (if applicable).
--   **`style`**: Apply custom styles to the scanner component.
--   **`className`**: Add custom class names to the scanner component.
+| Prop    | Type | Description |
+| -------- | ------- | ------- |
+| onScan* | (value: string) => void | Callback function triggered when a QR code is scanned. Passes the scanned data as an argument. |
+| onError | (error: Error) => void | Callback function triggered when an error occurs during scanning. |
+| facingMode | 'environment' / 'user' | Specify the camera facing mode. |
+| flipHorizontally | boolean | Flip the video feed horizontally. |
+| delay | number | Set the delay (in milliseconds) between scans. |
+| aspectRatio | string | Set the aspect ratio of the scanner window, using css aspect-ratio. |
+| switchLabel | (isScanner: boolean) => React.ReactNode | Function to customize the label for the switch component. |
+| dropChildren | React.ReactNode | React node to customize the content of the drop area. |
+| style | React.CSSProperties | Apply custom styles to the scanner component. |
+| className | string | Add custom class names to the scanner component. |
+
+
+### Scanner
+
+Simple component wrapper for barcode-detector library.
+
+#### Basic Example
+
+    import React, { useState } from 'react';
+    import { Scanner } from '@alzera/react-qr-scanner';
+    
+    const MyScannerComponent = () => {
+      const [scannedData, setScannedData] = useState('');
+    
+      return (
+        <div style={{ maxWidth: '500px' }}>
+          <Scanner onScan={(d) => d && setScannedData(d)} />
+          {scannedData && <p>Scanned Data: {scannedData}</p>}
+        </div>
+      );
+    };
+    
+    export default MyScannerComponent;
+
+#### Props
+
+| Prop    | Type | Description |
+| -------- | ------- | ------- |
+| onScan* | (value: string) => void | Callback function triggered when a QR code is scanned. Passes the scanned data as an argument. |
+| onError | (error: Error) => void | Callback function triggered when an error occurs during scanning. |
+| facingMode | 'environment' / 'user' | Specify the camera facing mode. |
+| flipHorizontally | boolean | Flip the video feed horizontally. |
+| delay | number | Set the delay (in milliseconds) between scans. |
+| aspectRatio | string | Set the aspect ratio of the scanner window, using css aspect-ratio. |
+| style | React.CSSProperties | Apply custom styles to the scanner component. |
+| className | string | Add custom class names to the scanner component. |
+
+### DropZone
+
+Simple component wrapper for barcode-detector library.
+
+#### Basic Example
+
+    import React, { useState } from 'react';
+    import { DropZone } from '@alzera/react-qr-scanner';
+    
+    const MyDropZoneComponent = () => {
+      const [scannedData, setScannedData] = useState('');
+    
+      return (
+        <div style={{ maxWidth: '500px' }}>
+          <DropZone onScan={(d) => d && setScannedData(d)} />
+          {scannedData && <p>Scanned Data: {scannedData}</p>}
+        </div>
+      );
+    };
+    
+    export default MyDropZoneComponent;
+
+#### Props
+
+| Prop    | Type | Description |
+| -------- | ------- | ------- |
+| onScan* | (value: string) => void | Callback function triggered when a QR code is scanned. Passes the scanned data as an argument. |
+| onError | (error: Error) => void | Callback function triggered when an error occurs during scanning. |
+| children | React.ReactNode | React node to customize the content of the drop area. |
+| style | React.CSSProperties | Apply custom styles to the scanner component. |
+| className | string | Add custom class names to the scanner component. |
 
 ## Contributing
 
 We welcome contributions! Feel free to open issues, create pull requests, or provide feedback.
 
-Happy scanning! 📷🚀
+Happy scanning! 📷 🚀

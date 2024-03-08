@@ -3,6 +3,7 @@ import { useState } from "react";
 import Scanner from "./scanner";
 import DropZone from "./drop-zone"
 import type ScannerProps from "./types/scanner-props";
+import type Styleable from "./types/styleable";
 
 export default function QrScanner({
   onScan,
@@ -10,23 +11,20 @@ export default function QrScanner({
   facingMode,
   flipHorizontally,
   delay,
-  resolution,
   aspectRatio,
   switchLabel,
   dropChildren,
   style,
   className,
-}: ScannerProps & {
+}: ScannerProps & Styleable & {
   switchLabel?: (isScanner: boolean) => React.ReactNode
   dropChildren?: React.ReactNode
-  style?: React.CSSProperties
-  className?: string
 }) {
   const [isScanner, setIsScanner] = useState(true)
   return (
     <div id="qr-scanner-layout" className={className} style={{
+      width: '100%',
       ...style,
-      width: '100%'
     }}>
       {isScanner
         ? <Scanner
@@ -35,7 +33,6 @@ export default function QrScanner({
           facingMode={facingMode}
           flipHorizontally={flipHorizontally}
           delay={delay}
-          resolution={resolution}
           aspectRatio={aspectRatio}
         />
         : <DropZone

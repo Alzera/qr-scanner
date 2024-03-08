@@ -7,10 +7,7 @@ import QrScanner from '@alzera/react-qr-scanner'
 export default function Home() {
   return (
     <main className={styles.main}>
-      <QrScanner 
-        onScan={(t) => console.log(t)} 
-        switchLabel={(isScanner) => 'Lalala'}
-        />
+      <QrScanner onScan={console.log} />
     </main>
   );
 }

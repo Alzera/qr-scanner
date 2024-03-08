@@ -4,6 +4,5 @@ export default interface ScannerProps {
   facingMode?: string;
   flipHorizontally?: boolean;
   delay?: number;
-  resolution?: number;
   aspectRatio?: string;
 }

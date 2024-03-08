@@ -2,12 +2,15 @@ import { useRef } from "react";
 
 import decoder from "./utils/decoder";
 import type ScannerProps from "./types/scanner-props";
+import type Styleable from "./types/styleable";
 
 export default function DropArea({
   onScan,
   onError,
   children,
-}: Pick<ScannerProps, 'onScan' | 'onError'> & {
+  className,
+  style,
+}: Pick<ScannerProps, 'onScan' | 'onError'> & Styleable & {
   children?: React.ReactNode
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -25,6 +28,7 @@ export default function DropArea({
   return (
     <div
       id="qr-drop-zone"
+      className={className}
       onDrop={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -45,6 +49,7 @@ export default function DropArea({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        ...style
       }}>
       <input
         ref={fileInputRef}

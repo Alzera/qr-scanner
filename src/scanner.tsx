@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react"
 
 import decoder from "./utils/decoder"
 import type ScannerProps from "./types/scanner-props"
+import type Styleable from "./types/styleable"
 
 interface HTMLVideoElementExtended extends HTMLVideoElement {
   mozSrcObject?: MediaStream
@@ -14,7 +15,9 @@ export default function Scanner({
   flipHorizontally = false,
   delay = 800,
   aspectRatio = '1/1',
-}: ScannerProps) {
+  className,
+  style,
+}: ScannerProps & Styleable) {
   const preview = useRef<HTMLVideoElementExtended>(null)
   let timeout: NodeJS.Timeout | null,
     stopCamera: (() => void) | undefined
@@ -93,12 +96,14 @@ export default function Scanner({
     ref={preview}
     preload="none"
     playsInline
+    className={className}
     style={{
       aspectRatio: aspectRatio,
       width: '100%',
       height: '100%',
       objectFit: 'cover',
       transform: flipHorizontally ? 'scaleX(1)' : 'scaleX(-1)',
+      ...style,
     }} />
 }
 
