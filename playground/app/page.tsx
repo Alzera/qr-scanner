@@ -6,7 +6,7 @@ import QrScanner from '@alzera/react-qr-scanner'
 
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <main className={styles.main} style={{ maxWidth: '500px' }}>
       <QrScanner onScan={console.log} />
     </main>
   );

@@ -82,12 +82,9 @@ export default function Scanner({
       }
     })).then(handleVideo).catch(onError)
     return () => {
-      if (timeout) {
-        clearTimeout(timeout)
-      }
-      if (stopCamera) {
-        stopCamera()
-      }
+      if (timeout) clearTimeout(timeout)
+      if (stopCamera) stopCamera()
+      preview.current?.removeEventListener('canplay', handleCanPlay)
     }
   })
 
