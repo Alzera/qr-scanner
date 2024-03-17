@@ -8,7 +8,6 @@ import type Styleable from "./types/styleable";
 export default function QrScanner({
   onScan,
   onError,
-  facingMode,
   flipHorizontally,
   delay,
   aspectRatio,
@@ -30,7 +29,6 @@ export default function QrScanner({
         ? <Scanner
           onScan={onScan}
           onError={onError}
-          facingMode={facingMode}
           flipHorizontally={flipHorizontally}
           delay={delay}
           aspectRatio={aspectRatio}

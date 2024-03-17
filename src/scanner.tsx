@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import decoder from "./utils/decoder"
 import type ScannerProps from "./types/scanner-props"
@@ -11,20 +11,22 @@ interface HTMLVideoElementExtended extends HTMLVideoElement {
 export default function Scanner({
   onScan,
   onError,
-  facingMode = 'environment',
   flipHorizontally = false,
   delay = 800,
   aspectRatio = '1/1',
   className,
   style,
 }: ScannerProps & Styleable) {
+  const [devices, setDevices] = useState<MediaDeviceInfo[]>([])
+  const [selectedDevice, setSelectedDevice] = useState<number | undefined>();
+
   const preview = useRef<HTMLVideoElementExtended>(null)
-  let timeout: NodeJS.Timeout | null,
-    stopCamera: (() => void) | undefined
+  const timeout = useRef<NodeJS.Timeout | null>(null)
+  const stopCamera = useRef<(() => void) | null>(null)
 
   const handleVideo = (stream: MediaStream) => {
     if (!preview.current) {
-      timeout = setTimeout(() => handleVideo(stream), 200)
+      timeout.current = setTimeout(() => handleVideo(stream), 200)
       return
     }
 
@@ -41,7 +43,7 @@ export default function Scanner({
     }
 
     const streamTrack = stream.getTracks()[0]
-    stopCamera = streamTrack.stop.bind(streamTrack)
+    stopCamera.current = streamTrack.stop.bind(streamTrack)
     preview.current.addEventListener('canplay', handleCanPlay)
   }
 
@@ -49,14 +51,14 @@ export default function Scanner({
     if (!preview.current) return
 
     preview.current.play()
-      .then(() => timeout = setTimeout(check, delay))
+      .then(() => timeout.current = setTimeout(check, delay))
       .catch(onError)
     preview.current.removeEventListener('canplay', handleCanPlay)
   }
 
   const check = () => {
     if (!preview.current) {
-      timeout = setTimeout(check, delay)
+      timeout.current = setTimeout(check, delay)
       return
     }
 
@@ -65,61 +67,73 @@ export default function Scanner({
         if (!preview.current) return
 
         decoder(preview.current).then((code) => {
-          timeout = setTimeout(decode, delay)
+          timeout.current = setTimeout(decode, delay)
           if (code) onScan(code)
         })
       }
       decode()
     } else {
-      timeout = setTimeout(check, delay)
+      timeout.current = setTimeout(check, delay)
     }
+  }
+
+  const release = () => {
+    if (timeout.current) clearTimeout(timeout.current)
+    if (stopCamera) stopCamera.current?.()
+    preview.current?.removeEventListener('canplay', handleCanPlay)
   }
 
   useEffect(() => {
-    getDeviceId(facingMode).then((deviceId) => navigator.mediaDevices.getUserMedia({
+    navigator
+      .mediaDevices
+      .enumerateDevices()
+      .then(ds => ds.filter((d) => d.kind === 'videoinput'))
+      .then(ds => {
+        setDevices(ds)
+        setSelectedDevice(0)
+      })
+    return release
+  }, [])
+
+  useEffect(() => {
+    if (selectedDevice == undefined || selectedDevice >= devices.length) return
+
+    navigator.mediaDevices.getUserMedia({
       video: {
-        deviceId
+        deviceId: devices[selectedDevice].deviceId
       }
-    })).then(handleVideo).catch(onError)
-    return () => {
-      if (timeout) clearTimeout(timeout)
-      if (stopCamera) stopCamera()
-      preview.current?.removeEventListener('canplay', handleCanPlay)
-    }
-  })
+    }).then(handleVideo).catch(onError)
 
-  return <video
-    id="qr-scanner"
-    ref={preview}
-    preload="none"
-    playsInline
-    className={className}
-    style={{
-      aspectRatio: aspectRatio,
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
-      transform: flipHorizontally ? 'scaleX(1)' : 'scaleX(-1)',
-      ...style,
-    }} />
+    return release
+  }, [selectedDevice])
+
+  return <>
+    <video
+      id="qr-scanner"
+      ref={preview}
+      preload="none"
+      playsInline
+      className={className}
+      style={{
+        aspectRatio: aspectRatio,
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        transform: flipHorizontally ? 'scaleX(1)' : 'scaleX(-1)',
+        ...style,
+      }} />
+    {devices.length > 1 && <select
+      value={selectedDevice}
+      onChange={e => {
+        const v = parseInt(e.target.value)
+        setSelectedDevice(Number.isNaN(v) ? undefined : v)
+      }}
+      style={{
+        width: '100%',
+        marginTop: '8px',
+        fontSize: '1rem',
+      }}>
+      {devices.map((v, i) => <option key={i} value={i}>{v.label}</option>)}
+    </select>}
+  </>
 }
-
-const getDeviceId = (facingMode: string) => new Promise<string>((resolve, reject) => {
-  try {
-    navigator.mediaDevices.enumerateDevices().then((devices) => {
-      const videoDevices = devices.filter((device) => device.kind === 'videoinput')
-      if (videoDevices.length < 1) {
-        reject(new Error('No video input devices found'))
-        return
-      }
-      const pattern = facingMode === 'environment' ? /rear|back|environment/gi : /front|user|face/gi
-      const filteredDevices = videoDevices.filter(({ label }) => pattern.test(label))
-
-      if (filteredDevices.length > 0) return resolve(filteredDevices[0].deviceId)
-      if (videoDevices.length === 1 || facingMode === 'user') return resolve(videoDevices[0].deviceId)
-      resolve(videoDevices[1].deviceId)
-    })
-  } catch (err) {
-    reject(new Error('No video input devices found'))
-  }
-})

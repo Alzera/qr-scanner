@@ -9,7 +9,6 @@ export default defineConfig({
     dts({ insertTypesEntry: true })
   ],
   build: {
-    // sourcemap: true,
     lib: {
       entry: {
         'index': resolve(__dirname, 'src/index.ts'),
@@ -17,12 +16,12 @@ export default defineConfig({
         'scanner': resolve(__dirname, 'src/scanner.tsx'),
         'drop-zone': resolve(__dirname, 'src/drop-zone.tsx'),
       },
-      formats: ['es'],
+      formats: ['es', 'cjs'],
       name: 'ReactQrScanner',
-      // fileName: (format, entryName) => format === 'es' ? `${entryName}.js` : `${entryName}.${format}.js`
+      fileName: (format, entryName) => format === 'es' ? `${entryName}.js` : `${entryName}.${format}.js`
     },
     rollupOptions: {
-      external: ['react','react/jsx-runtime'],
+      external: ['react','react/jsx-runtime', 'barcode-detector/pure'],
       output: {
         exports: "named"
       }
