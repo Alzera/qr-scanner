@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 
-import decoder from "./utils/decoder"
+import useDecoder from "./utils/use-decoder"
 import type ScannerProps from "./types/scanner-props"
 import type Styleable from "./types/styleable"
 
@@ -14,6 +14,7 @@ export default function Scanner({
   flipHorizontally = false,
   delay = 800,
   aspectRatio = '1/1',
+  decoderOptions,
   className,
   style,
 }: ScannerProps & Styleable) {
@@ -23,6 +24,8 @@ export default function Scanner({
   const preview = useRef<HTMLVideoElementExtended>(null)
   const timeout = useRef<NodeJS.Timeout | null>(null)
   const stopCamera = useRef<(() => void) | null>(null)
+
+  const { decoder } = useDecoder(decoderOptions)
 
   const handleVideo = (stream: MediaStream) => {
     if (!preview.current) {
@@ -66,7 +69,7 @@ export default function Scanner({
       const decode = () => {
         if (!preview.current) return
 
-        decoder(preview.current).then((code) => {
+        decoder.current?.(preview.current).then((code) => {
           timeout.current = setTimeout(decode, delay)
           if (code) onScan(code)
         })

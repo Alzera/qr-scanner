@@ -13,6 +13,7 @@ export default function QrScanner({
   aspectRatio,
   switchLabel,
   dropChildren,
+  decoderOptions,
   style,
   className,
 }: ScannerProps & Styleable & {
@@ -32,10 +33,12 @@ export default function QrScanner({
           flipHorizontally={flipHorizontally}
           delay={delay}
           aspectRatio={aspectRatio}
+          decoderOptions={decoderOptions}
         />
         : <DropZone
           onScan={onScan}
-          onError={onError}>
+          onError={onError}
+          decoderOptions={decoderOptions}>
           {dropChildren}
         </DropZone>}
       <button

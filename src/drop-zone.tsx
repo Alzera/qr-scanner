@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import decoder from "./utils/decoder";
+import useDecoder from "./utils/use-decoder"
 import type ScannerProps from "./types/scanner-props";
 import type Styleable from "./types/styleable";
 
@@ -8,16 +8,19 @@ export default function DropArea({
   onScan,
   onError,
   children,
+  decoderOptions,
   className,
   style,
-}: Pick<ScannerProps, 'onScan' | 'onError'> & Styleable & {
+}: Pick<ScannerProps, 'onScan' | 'onError' | 'decoderOptions'> & Styleable & {
   children?: React.ReactNode
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const { decoder } = useDecoder(decoderOptions)
+
   const handleDetect = async (file: File) => {
     try {
-      const data = await decoder(file)
+      const data = await decoder.current?.(file)
       if (!data) return
       onScan(data)
     } catch (error) {
