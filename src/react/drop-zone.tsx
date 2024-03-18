@@ -1,8 +1,8 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
-import useDecoder from "./utils/use-decoder"
-import type ScannerProps from "./types/scanner-props";
-import type Styleable from "./types/styleable";
+import createDecoder, { type Decoder } from "../utils/create-decoder"
+import type ScannerProps from "../types/scanner-props";
+import type Styleable from "../types/styleable";
 
 export default function DropArea({
   onScan,
@@ -16,7 +16,8 @@ export default function DropArea({
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { decoder } = useDecoder(decoderOptions)
+  const decoder = useRef<Decoder | null>(null)
+  useEffect(() => { decoder.current = createDecoder(decoderOptions) }, [decoderOptions])
 
   const handleDetect = async (file: File) => {
     try {

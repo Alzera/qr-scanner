@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 
-import useDecoder from "./utils/use-decoder"
-import type ScannerProps from "./types/scanner-props"
-import type Styleable from "./types/styleable"
+import createDecoder, { type Decoder } from "../utils/create-decoder"
+import type ScannerProps from "../types/scanner-props"
+import type Styleable from "../types/styleable"
 
 interface HTMLVideoElementExtended extends HTMLVideoElement {
   mozSrcObject?: MediaStream
@@ -25,7 +25,8 @@ export default function Scanner({
   const timeout = useRef<NodeJS.Timeout | null>(null)
   const stopCamera = useRef<(() => void) | null>(null)
 
-  const { decoder } = useDecoder(decoderOptions)
+  const decoder = useRef<Decoder | null>(null)
+  useEffect(() => { decoder.current = createDecoder(decoderOptions) }, [decoderOptions])
 
   const handleVideo = (stream: MediaStream) => {
     if (!preview.current) {

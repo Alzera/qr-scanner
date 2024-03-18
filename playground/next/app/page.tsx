@@ -2,7 +2,7 @@
 
 import styles from "./page.module.css";
 
-import QrScanner from '@alzera/react-qr-scanner'
+import QrScanner from '@alzera/qr-scanner/react'
 
 export default function Home() {
   return (

@@ -11,13 +11,12 @@ export default defineConfig({
   build: {
     lib: {
       entry: {
-        'index': resolve(__dirname, 'src/index.ts'),
-        'qr-scanner': resolve(__dirname, 'src/qr-scanner.tsx'),
-        'scanner': resolve(__dirname, 'src/scanner.tsx'),
-        'drop-zone': resolve(__dirname, 'src/drop-zone.tsx'),
+        'react/index': resolve(__dirname, 'src/react/index.tsx'),
+        'react/scanner': resolve(__dirname, 'src/react/scanner.tsx'),
+        'react/drop-zone': resolve(__dirname, 'src/react/drop-zone.tsx'),
       },
       formats: ['es', 'cjs'],
-      name: 'ReactQrScanner',
+      name: 'QrScanner',
       fileName: (format, entryName) => format === 'es' ? `${entryName}.js` : `${entryName}.${format}.js`
     },
     rollupOptions: {

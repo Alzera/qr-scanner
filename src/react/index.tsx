@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import Scanner from "./scanner";
 import DropZone from "./drop-zone"
-import type ScannerProps from "./types/scanner-props";
-import type Styleable from "./types/styleable";
+import type ScannerProps from "../types/scanner-props";
+import type Styleable from "../types/styleable";
 
 export default function QrScanner({
   onScan,
@@ -56,3 +56,5 @@ export default function QrScanner({
     </div>
   );
 }
+
+export { Scanner, DropZone }
