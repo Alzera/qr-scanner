@@ -111,20 +111,17 @@ export default function Scanner({
     return release
   }, [selectedDevice])
 
-  return <>
+  return <div id="qr-scanner" className={className} style={style}>
     <video
-      id="qr-scanner"
       ref={preview}
       preload="none"
       playsInline
-      className={className}
       style={{
         aspectRatio: aspectRatio,
         width: '100%',
         height: '100%',
         objectFit: 'cover',
         transform: flipHorizontally ? 'scaleX(1)' : 'scaleX(-1)',
-        ...style,
       }} />
     {devices.length > 1 && <select
       value={selectedDevice}
@@ -139,5 +136,5 @@ export default function Scanner({
       }}>
       {devices.map((v, i) => <option key={i} value={i}>{v.label}</option>)}
     </select>}
-  </>
+  </div>
 }

@@ -4,7 +4,7 @@ import createDecoder, { type Decoder } from "../utils/create-decoder"
 import type ScannerProps from "../types/scanner-props";
 import type Styleable from "../types/styleable";
 
-export default function DropArea({
+export default function DropZone({
   onScan,
   onError,
   children,
@@ -14,8 +14,6 @@ export default function DropArea({
 }: Pick<ScannerProps, 'onScan' | 'onError' | 'decoderOptions'> & Styleable & {
   children?: React.ReactNode
 }) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   const decoder = useRef<Decoder | null>(null)
   useEffect(() => { decoder.current = createDecoder(decoderOptions) }, [decoderOptions])
 
@@ -56,7 +54,6 @@ export default function DropArea({
         ...style
       }}>
       <input
-        ref={fileInputRef}
         type="file"
         accept="image/*"
         onChange={({ target }) => target.files?.length && handleDetect(target.files[0])}

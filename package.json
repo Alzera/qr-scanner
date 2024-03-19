@@ -13,12 +13,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Alzera/react-qr-scanner.git"
+    "url": "git+https://github.com/Alzera/qr-scanner.git"
   },
   "bugs": {
-    "url": "https://github.com/Alzera/react-qr-scanner/issues"
+    "url": "https://github.com/Alzera/qr-scanner/issues"
   },
-  "homepage": "https://github.com/Alzera/react-qr-scanner#readme",
+  "homepage": "https://github.com/Alzera/qr-scanner#readme",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,12 +26,20 @@
     "./react": {
       "import": "./dist/react/index.js",
       "require": "./dist/react/index.cjs.js",
-      "default": "./dist/react/index.js"
-    }
+      "default": "./dist/react/index.js",
+      "types": "./dist/react/index.d.ts"
+    },
+    "./vue": {
+      "import": "./dist/vue/index.js",
+      "require": "./dist/vue/index.cjs.js",
+      "default": "./dist/vue/index.js",
+      "types": "./dist/vue/index.d.ts"
+    },
+    "./vue/qr-scanner.css": "./dist/style.css"
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "analyze": "npx vite-bundle-visualizer"
@@ -43,6 +51,7 @@
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-vue": "^5.0.4",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
@@ -53,6 +62,7 @@
   "peerDependencies": {
     "barcode-detector": "^2.2.4",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "vue": "^3.4.21"
   }
 }
