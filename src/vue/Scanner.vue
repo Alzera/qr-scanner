@@ -8,8 +8,8 @@ interface HTMLVideoElementExtended extends HTMLVideoElement {
   mozSrcObject?: MediaStream
 }
 
-const model = defineModel<string>({ required: true })
 const emit = defineEmits<{
+  scan: [value: string];
   error: [error: any];
 }>();
 const {
@@ -72,7 +72,7 @@ const check = () => {
 
       decoder.value?.(preview.value).then((code) => {
         timeout = setTimeout(decode, delay)
-        if (code) model.value = code
+        if (code) emit('scan', code)
       })
     }
     decode()
@@ -103,6 +103,7 @@ onMounted(() => {
       devices.value = ds
       selectedDevice.value = 0
     })
+    .catch(err => emit('error', err))
   return release
 })
 

@@ -4,8 +4,8 @@ import { ref } from 'vue'
 import type ScannerProps from "../types/scanner-props";
 import { Scanner, DropZone } from '.';
 
-const model = defineModel<string>({ required: true })
 const emit = defineEmits<{
+  scan: [value: string];
   error: [error: any];
 }>();
 const {
@@ -17,14 +17,15 @@ const {
 
 const isScanner = ref(true)
 
+const onScan = (v: string) => emit('scan', v)
 const onError = (err: any) => emit('error', err)
 </script>
 
 <template>
   <div id="qr-scanner-layout">
-    <Scanner v-if="isScanner" v-model="model" @error="onError" :flipHorizontally="flipHorizontally" :delay="delay"
+    <Scanner v-if="isScanner" @scan="onScan" @error="onError" :flipHorizontally="flipHorizontally" :delay="delay"
       :aspectRatio="aspectRatio" :decoderOptions="decoderOptions" />
-    <DropZone v-else v-model="model" @error="onError" :decoderOptions="decoderOptions">
+    <DropZone v-else @scan="onScan" @error="onError" :decoderOptions="decoderOptions">
       <slot name="drop-children"></slot>
     </DropZone>
     <button type="button" @click="() => isScanner = !isScanner">

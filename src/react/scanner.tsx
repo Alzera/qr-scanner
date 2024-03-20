@@ -96,17 +96,21 @@ export default function Scanner({
         setDevices(ds)
         setSelectedDevice(0)
       })
+      .catch(onError)
     return release
   }, [])
 
   useEffect(() => {
     if (selectedDevice == undefined || selectedDevice >= devices.length) return
 
-    navigator.mediaDevices.getUserMedia({
-      video: {
-        deviceId: devices[selectedDevice].deviceId
-      }
-    }).then(handleVideo).catch(onError)
+    navigator.mediaDevices
+      .getUserMedia({
+        video: {
+          deviceId: devices[selectedDevice].deviceId
+        }
+      })
+      .then(handleVideo)
+      .catch(onError)
 
     return release
   }, [selectedDevice])

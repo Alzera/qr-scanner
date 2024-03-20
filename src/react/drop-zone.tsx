@@ -23,7 +23,7 @@ export default function DropZone({
       if (!data) return
       onScan(data)
     } catch (error) {
-      onError && onError(error as any)
+      onError?.(error)
     }
   }
 

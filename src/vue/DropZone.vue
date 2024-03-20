@@ -4,8 +4,8 @@ import { computed } from 'vue'
 import type ScannerProps from "../types/scanner-props";
 import createDecoder from "../utils/create-decoder"
 
-const model = defineModel<string>({ required: true })
 const emit = defineEmits<{
+  scan: [value: string];
   error: [error: any];
 }>();
 const { 
@@ -17,8 +17,7 @@ const decoder = computed(() => createDecoder(decoderOptions))
 const handler = async (file: File) => {
   try {
     const value = await decoder.value(file)
-    if (!value) return
-    model.value = value
+    if (value) emit('scan', value)
   } catch (error) {
     emit('error', error)
   }

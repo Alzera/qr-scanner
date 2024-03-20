@@ -1,11 +1,12 @@
 {
   "name": "@alzera/qr-scanner",
   "version": "1.0.4",
-  "description": "QR code scanner component for React apps",
+  "description": "QR code scanner component for React and Vue apps",
   "license": "MIT",
   "author": "Alzera Cita <alzeracita23@gmail.com>",
   "keywords": [
     "react",
+    "vue",
     "qr",
     "qrcode",
     "scanner",
