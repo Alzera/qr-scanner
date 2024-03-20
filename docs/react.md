@@ -5,7 +5,7 @@ Combined version of Scanner component and DropZone component, comes with a built
 ## Basic Example
 
     import React, { useState } from 'react';
-    import QRScanner from '@alzera/qr-scanner';
+    import QRScanner from '@alzera/qr-scanner/react';
     
     const MyQRScannerComponent = () => {
       const [scannedData, setScannedData] = useState('');
@@ -43,7 +43,7 @@ Simple component wrapper for barcode-detector library.
 ## Basic Example
 
     import React, { useState } from 'react';
-    import { Scanner } from '@alzera/qr-scanner';
+    import { Scanner } from '@alzera/qr-scanner/react';
     
     const MyScannerComponent = () => {
       const [scannedData, setScannedData] = useState('');
@@ -78,7 +78,7 @@ Simple component wrapper for barcode-detector library.
 ## Basic Example
 
     import React, { useState } from 'react';
-    import { DropZone } from '@alzera/qr-scanner';
+    import { DropZone } from '@alzera/qr-scanner/react';
     
     const MyDropZoneComponent = () => {
       const [scannedData, setScannedData] = useState('');
