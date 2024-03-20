@@ -19,8 +19,9 @@ Install `@alzera/react-qr-scanner` using your preferred package manager:
     npm install @alzera/react-qr-scanner
 
 ## Framework
-[React Version](https://github.com/alzera/qr-scanner/blob/main/src/react.md)
-[Vue Version](https://github.com/alzera/qr-scanner/blob/main/src/vue.md)
+[React Version](https://github.com/alzera/qr-scanner/blob/main/docs/react.md)
+
+[Vue Version](https://github.com/alzera/qr-scanner/blob/main/docs/vue.md)
 
 ## Contributing
 
